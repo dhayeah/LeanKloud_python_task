@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+<body>
+  <h1 style="background-color:black;text-align: center;height: 100px;padding: 20px;color: white;">ToDo App</h1>
+  <div class="container" >
+   
+    <h3>Create new task :</h3>
+    <form action="/add" method="POST" >
+    
+    <label class="h6" for="">Task name</label>
+    <input class="shadow bg-white rounded"  type="text" name="task" />
+    <br>
+   <label class="h6" for="">Due by</label>
+    <input class="shadow bg-white rounded"  type="date" name="due" />
+    <br>
+    <label class="h6" for="">Status</label>
+   <select class="shadow bg-white rounded"  name="status" id="">
+     <option value="not_started">Not started</option>
+     <option value="in_progress">In progress</option>
+     <option value="finished">Finished</option>
+   </select><br>
+    <input class="btn btn-primary h6" type="submit" value="Add task">
+  </form>
+</div>
+<hr>
+
+<div class="container">
+<h3> Filters</h3>
+<form action="/due" method="GET">
+  <label class="h6" for="">Enter specified date for tasks due :</label> 
+  <input class="shadow bg-white rounded"  type="date" name="due_date">
+  <input class="btn btn-info h6" type="submit" value="Get due tasks">
+</form>
+
+<form action="/overdue" method="GET">
+  <input   class="btn btn-info h6" type="submit" value="Overdue tasks">
+</form>
+<br>
+<form action="/finished" method="GET">
+  <input  class="btn btn-info h6" type="submit" value="Finished tasks">
+</form>
+
+<hr>
+  <h2>Todo list</h2>
+    
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Task ID</th>
+        <th>Task name</th>
+        <th>Due </th>
+        <th>Status</th>
+        <th>Update status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in computers %}
+      <tr>
+        <td>{{ row.0 }}</td>
+        <td>{{ row.1 }}</td>
+        <td>{{ row.2 }}</td>
+        <td>{{ row.3 }}</td>
+        <td><a href="#!" class="btn btn-warning" data-toggle="modal" data-target="#modalupdate{{ row.0 }}" >Update Status</a></td>
+      </tr>
+      <!-- Modal -->
+<div id="modalupdate{{ row.0 }}" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+      
+        <h4 class="modal-title">Update staus</h4>
+      </div>
+      <div class="modal-body">
+        <form action="/update" method="post">
+          <div class="form-group">
+            <label for="">Status</label>
+            <select class="shadow bg-white rounded"  name="status">
+              <option value="not_started">Not started</option>
+              <option value="in_progress">In progress</option>
+              <option value="finished">Finished</option>
+            </select><br>
+            <input type="hidden" name="id" value="{{ row.0 }}">
+          </div>
+          <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
+
